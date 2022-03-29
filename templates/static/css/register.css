@@ -1,0 +1,152 @@
+body {
+    background-image: url('../img/backgroud.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.form-register {
+    background-color: gray;
+    height: auto;
+    width: 450px;
+    border-radius: 20px;
+    opacity: 0.8;
+    margin-top: 10px;
+    padding-bottom: 30px;
+}
+
+.form-register h1 {
+    text-align: center;
+    color: rgb(223, 43, 11);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 52px;
+    font-weight: bold;
+}
+
+.lable {
+    margin-left: 15%;
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+input {
+    margin-left: 15%;
+    height: 30px;
+    border-radius: 5px;
+    width: 70%;
+    margin-top: -12px;
+    font-size: 15px;
+}
+
+.btn {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+}
+
+.btn button {
+    background-color: rgb(218, 123, 34);
+    margin-right: 8%;
+    margin-top: 50px;
+    width: 150px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.btn button:hover {
+    background-color: rgb(240, 160, 85);
+}
+
+.check-box {
+    width: 100%;
+}
+
+.check-box input {
+    width: 20px;
+}
+
+.check-box span {
+    position: relative;
+    top: -10px;
+    font-weight: bold;
+}
+
+.check-box p {
+    padding: 10px;
+}
+
+.forgot-password {
+    display: flex;
+    width: 100%;
+    justify-content: right;
+}
+
+.forgot-password a {
+    margin-right: 10%;
+    color: rgb(29, 93, 231);
+}
+
+.active {
+    border: 2px solid rgb(201, 22, 22);
+}
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+
+/* Modal Content/Box */
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+}
+
+
+/* The Close Button */
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

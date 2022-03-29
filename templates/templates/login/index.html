@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}" />
+</head>
+
+<body>
+    <div class="form">
+        <div class="form-register">
+            <h1>Member Login</h1>
+            <p class="lable">Email</p>
+            <input type="email" class="email">
+            <p class="lable">Password</p>
+            <input type="password" class="password">
+            <div class="check-box">
+                <p> <input type="checkbox"> <span>Remember me</span></p>
+            </div>
+
+            <div class="forgot-password">
+                <a href="/forgot_password"># forgot password ?</a>
+            </div>
+            <div class="btn">
+                <button id="login">Login</button>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/set-token.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            $('#login').click(() => {
+                obj = ['email', 'password']
+                dk = 0
+                for (let i in obj) {
+                    if ($(`.${obj[i]}`).val() == '') {
+                        $(`.${obj[i]}`).addClass('active')
+                    } else {
+                        dk += 1
+                        $(`.${obj[i]}`).removeClass('active')
+                    }
+                }
+                if (dk == 2) {
+                    $.ajax({
+                        url: 'api/login',
+                        type: 'POST',
+                        data: {
+                            email: $('.email').val(),
+                            password: $('.password').val()
+                        },
+                        success: (data) => {
+                            if (data['message'] != undefined) {
+                                alert(data['message'])
+                            } else {
+                                console.log(data);
+                                localStorage.setItem('token', data['token'])
+                                window.location.replace(`game`)
+                            }
+                        },
+                        error: (err) => {
+                            console.log(err);
+                        }
+
+                    })
+                }
+            })
+        })
+    </script>
+
+</body>
+
+</html>

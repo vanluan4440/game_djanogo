@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}" />
+</head>
+
+<body>
+
+    <div class="form">
+        <div class="form-register">
+            <h1>Registration</h1>
+            <p class="lable">Username</p>
+            <input type="text" class="username">
+            <p class="lable">Email</p>
+            <input type="email" class="email">
+
+            <p class="lable">Password</p>
+            <input type="password" class="password">
+
+            <p class="lable">Password again</p>
+            <input type="password" class="cofirm">
+            <p id="mess" style="text-align: center;
+            color: rgb(194, 7, 7); height: 20px;">Don't send data</p>
+            <p id="mess1" style="text-align: center;
+             color: rgb(194, 7, 7); height: 20px;"></p>
+            <div class="btn">
+                <button class="btn-register">register</button>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/set-token.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function addClassAction(type) {
+            return $(`.${type}`).addClass('active')
+        }
+
+        function removeClassAction(type) {
+            return $(`.${type}`).removeClass('active')
+        }
+
+        function ValidateEmail(mail) {
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+                return (true)
+            }
+            return (false)
+        }
+
+        $(document).ready(() => {
+            $('#mess').hide()
+            $('#mess1').hide()
+            $('.btn-register').click(() => {
+                const username = $('.username').val()
+                const email = $('.email').val()
+                const password = $('.password').val()
+                const cofirmPassword = $('.cofirm').val()
+                obj = ['username', 'email', 'password', 'cofirm']
+                let dk = 0
+                let isMail = 0
+
+                let pass = []
+
+                for (let i in obj) {
+
+                    if ($(`.${obj[i]}`).val() == '') {
+                        addClassAction(`${obj[i]}`)
+                    } else {
+                        if (obj[i] == 'email' && ValidateEmail($(`.${obj[i]}`).val()) == true) {
+                            isMail += 1
+                        } else {
+                            addClassAction(`${obj[i]}`)
+                        }
+                        if (obj[i] == 'password' || obj[i] == 'cofirm') {
+                            pass.push($(`.${obj[i]}`).val())
+                        }
+                        dk += 1
+                        removeClassAction(`${obj[i]}`)
+                    }
+                }
+
+                if (dk == 4 && isMail > 0 && pass[0] == pass[1]) {
+                    $.ajax({
+                        url: '/api/register',
+                        method: 'POST',
+                        data: {
+                            username: $('.username').val(),
+                            email: $('.email').val(),
+                            password: $('.password').val(),
+
+                        },
+                        success: (data) => {
+                            if (data['message'] == 'registed') {
+                                window.location.replace('/login')
+                            } else {
+                                $('#mess1').show()
+                                console.log(data);
+                                $('#mess1').text(`${data['message']}`)
+                                setTimeout(() => {
+                                    $('#mess1').hide()
+                                }, 3000)
+                            }
+                        },
+                        error: (err) => {
+                            console.log(err);
+                        }
+                    })
+                } else {
+                    $('#mess').show()
+                    setTimeout(() => {
+                        $('#mess').hide()
+                    }, 2000)
+                }
+
+
+
+
+
+            })
+
+        })
+    </script>
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,48 @@
+body {
+    background-image: url('../img/backgroud.jpg');
+    background-size: cover;
+}
+
+.logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.button-area {
+    display: flex;
+    width: 100%;
+    height: 70px;
+    justify-content: center;
+}
+
+.login {
+    background-color: rgb(182, 92, 41);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    height: 50px;
+    width: 150px;
+    font-size: 20px;
+}
+
+.login:hover {
+    background-color: rgb(197, 131, 93);
+    transition: 2ms;
+}
+
+.register {
+    background-color: rgb(182, 92, 41);
+    color: white;
+    border: none;
+    border-radius: 3px;
+    height: 50px;
+    width: 150px;
+    font-size: 20px;
+    margin-left: 10%;
+}
+
+.register:hover {
+    background-color: rgb(197, 131, 93);
+    transition: 2ms;
+}
