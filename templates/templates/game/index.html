@@ -7,11 +7,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 </head>
 
 <body>
-    <h1>Gmae</h1>
+    <div class="logo">
+        <img src="{% static 'img/logo.png' %}" alt="">
+
+    </div>
+    <div class="button-area">
+        <button class="login" onclick="router('basic')">Basic</button>
+        <button class="register" onclick="router('register')">Advanced</button>
+    </div>
+   
     <script src="{% static 'js/token.js' %}"></script>
 </body>
+
+<script>
+    function router(target) {
+        window.location.replace(`${target}`)
+        if (target == 'basic') {
+            window.localStorage.setItem('basic', true)
+        } else {
+            window.localStorage.setItem('basic', false)
+
+        }
+        if (target == 'advanced') {
+            window.localStorage.setItem('advanced', true)
+        } else {
+            window.localStorage.setItem('advanced', false)
+
+        }
+    }
+</script>
 
 </html>

@@ -19,8 +19,14 @@
         <button class="login" onclick="router('login')">Login</button>
         <button class="register" onclick="router('register')">Register</button>
     </div>
+    <audio src="../../static/music/game.mp3" muted loop="loop" id="audio"></audio>
 </body>
 <script>
+    setTimeout(() => {
+        document.getElementById('audio').muted = false;
+        document.getElementById('audio').play();
+    }, 2000)
+
     function router(tagert) {
         window.location.replace(`${tagert}`)
     }

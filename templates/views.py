@@ -27,3 +27,16 @@ def game(request):
         return redirect('/login')
     else:
         return render(request,template_name='game/index.html')
+def basic(request):
+    token = request.COOKIES.get('token')
+    if not token:
+        return redirect('/login')
+    try:
+        payload = jwt.decode(token,'secret',algorithms='HS256')
+    except jwt.ExpiredSignatureError:
+        return redirect('/login')
+    user = User.objects.filter(email =payload['email'] ).count()
+    if user <1:
+        return redirect('/login')
+    else:
+        return render(request,template_name='basic/index.html')

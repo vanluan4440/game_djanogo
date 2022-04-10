@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Template</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="bower/font-awesome/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+</head>
+
+<body>
+    <!-- <img src="../../static/img/keys.svg" alt=""> -->
+    <canvas id="snake_game" width="1200" height="900"></canvas>
+    <div id="score">
+        <img src="../../static/img/apple_00.png" style="width: 80px; margin-top: 10px;" alt="">
+        <span id="index">0</span>
+    </div>
+    <div id="setting">
+        <button id="myBtn"><img src="../../static/img/setting.png" style="width: 80px; margin-top: 10px;" alt=""></button>
+    </div>
+
+    <!-- modal -->
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h1 style="padding-bottom: 20px;">Option speed</h1>
+            <hr>
+            <input type="range" value="100" min="100" max="900" step="100" id="speed" oninput="this.nextElementSibling.value = this.value">
+            <output>100</output>
+        </div>
+
+    </div>
+    <script async src="{% static 'js/all.js' %}"></script>
+    <script async src="{% static 'js/modal.js' %}"></script>
+
+</body>
+
+</html>

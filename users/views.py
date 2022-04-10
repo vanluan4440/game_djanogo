@@ -1,9 +1,11 @@
-import email
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import User
 from django.contrib.auth.hashers import make_password, check_password
 import jwt
+from django.core.mail import send_mail
+from django.conf import settings
 # Create your views here.
 
 def register(request):
@@ -39,6 +41,11 @@ def forgot_password(request):
     if request.method == 'POST':
         user = User.objects.filter(email=request.POST['email']).update(password= make_password(request.POST['password']))
         if user:
+            subject = '[CHANGE PASSWORD]'
+            message = 'new password is {}'.format(request.POST['password'])
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [request.POST['email']]
+            send_mail( subject, message, email_from, recipient_list )
             return JsonResponse({'message':'Update password'})
         else:
             return JsonResponse({'message':'Email not match'})
