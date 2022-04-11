@@ -21,7 +21,7 @@
         <button id="myBtn"><img src="../../static/img/setting.png" style="width: 80px; margin-top: 10px;" alt=""></button>
     </div>
     <div id="setting">
-        <button id="myBtn"><img src="../../static/img/trophy_00.png" style="width: 80px; margin-top: 10px;" alt=""></button>
+        <button id="game_over"><img src="../../static/img/trophy_00.png" style="width: 80px; margin-top: 10px;" alt=""></button>
     </div>
 
     <!-- modal -->
@@ -32,9 +32,18 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h1 style="padding-bottom: 20px;">Option speed</h1>
-            <hr>
-            <input type="range" min="100" max="300" step="100" id="speed" oninput="updateTextInput(this.value)">
+
+            <input type="range" min="100" max="300" step="100" id="speed" class="slider" oninput="updateTextInput(this.value)">
             <output id="umjp_minutes">100</output>
+        </div>
+
+    </div>
+    <div id="game_over" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="../../static/img/game_over.jpg" alt="">
         </div>
 
     </div>
