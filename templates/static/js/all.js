@@ -23,6 +23,7 @@ let up = new Audio();
 let right = new Audio();
 let left = new Audio();
 let down = new Audio();
+
 dead.src = "../../static/music/dead.mp3";
 eat.src = "../../static/music/eat.mp3";
 up.src = "../../static/music/up.mp3";
@@ -388,11 +389,10 @@ var SnakeGame =
     }();
 
 (function() {
-    let speed = document.getElementById('speed').value
-    console.log(speed);
+    let speed = localStorage.getItem('speed')
     new SnakeGame({
         id: 'snake_game',
-        speed: 300,
+        speed: speed,
         images: [{
             name: SNAKE_SPRITE,
             path: '../../static/img/snake.png'
@@ -400,3 +400,19 @@ var SnakeGame =
     });
 })();
 "use strict";
+
+function updateTextInput(val) {
+    let output = document.getElementById('umjp_minutes');
+    output.innerText = val;
+    localStorage.setItem('speed', val)
+    setTimeout(() => {
+        window.location.reload()
+    }, 400)
+}
+if (localStorage.getItem('speed') == undefined) {
+    localStorage.setItem('speed', 200)
+}
+let el = document.getElementById('speed')
+el.value = localStorage.getItem('speed')
+let output = document.getElementById('umjp_minutes');
+output.innerText = localStorage.getItem('speed')
