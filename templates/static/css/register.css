@@ -16,14 +16,14 @@ body {
     width: 450px;
     border-radius: 20px;
     opacity: 0.8;
-    margin-top: 150px;
+    margin-top: 10px;
     padding-bottom: 30px;
 }
 
 .form-register h1 {
     text-align: center;
     color: rgb(223, 43, 11);
-    font-family: 'Times New Roman', Times, serif;
+    font-family:'Times New Roman', Times, serif;
     font-size: 52px;
     font-weight: bold;
 }
