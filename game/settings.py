@@ -26,13 +26,13 @@ SECRET_KEY = 'django-insecure-u5qfzhhnh-(j$p#u9hh%d+na6w(#3*(1rjexwszwbdmnjx797s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.7']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    # 'livesync',
+    'livesync',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'game.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'game',
+        'NAME': 'db_game',
         'USER': 'root',
         'PASSWORD':'',
         'HOST': 'localhost',

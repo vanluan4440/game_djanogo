@@ -14,6 +14,8 @@ function _defineProperties(target, props) {
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+var domain = 'http://192.168.1.7:8000'
+var url_score = '/api/score'
 var SNAKE_SPRITE = "snake_tiles";
 var TAIL = 2;
 var mark = 0;
@@ -23,6 +25,7 @@ let up = new Audio();
 let right = new Audio();
 let left = new Audio();
 let down = new Audio();
+var dont_play = true
 
 dead.src = "../../static/music/dead.mp3";
 eat.src = "../../static/music/eat.mp3";
@@ -32,6 +35,8 @@ left.src = "../../static/music/left.mp3";
 down.src = "../../static/music/down.mp3";
 
 var dk_play = false
+
+var modal1 = document.getElementById("game_over");
 
 var SnakeGame =
     /*#__PURE__*/
@@ -199,6 +204,9 @@ var SnakeGame =
                     this.gOver = true;
                     dead.play()
                     this.dk_play = false
+                    modal1.style.display = 'block'
+                    postData(`${domain+url_score}`, { token: localStorage.getItem('token'), score: mark })
+                    dont_play = false
                 } //    Draw methods
 
         }, {
@@ -350,31 +358,32 @@ var SnakeGame =
         }, {
             key: "keyDown",
             value: function keyDown(event) {
-                var keyCode = event.keyCode;
+                if (dont_play == true) {
+                    var keyCode = event.keyCode;
+                    switch (keyCode) {
+                        case 37:
+                            this.updateMovement('left');
+                            left.play()
+                            this.dk_play = true
+                            break;
 
-                switch (keyCode) {
-                    case 37:
-                        this.updateMovement('left');
-                        left.play()
-                        this.dk_play = true
-                        break;
+                        case 38:
+                            this.updateMovement('top');
+                            this.dk_play = true
+                            break;
 
-                    case 38:
-                        this.updateMovement('top');
-                        this.dk_play = true
-                        break;
+                        case 39:
+                            this.updateMovement('right');
+                            left.play()
+                            this.dk_play = true
+                            break;
 
-                    case 39:
-                        this.updateMovement('right');
-                        left.play()
-                        this.dk_play = true
-                        break;
-
-                    case 40:
-                        this.updateMovement('down');
-                        left.play()
-                        this.dk_play = true
-                        break;
+                        case 40:
+                            this.updateMovement('down');
+                            left.play()
+                            this.dk_play = true
+                            break;
+                    }
                 }
             }
         }, {
@@ -403,16 +412,54 @@ var SnakeGame =
 
 function updateTextInput(val) {
     let output = document.getElementById('umjp_minutes');
-    output.innerText = val;
+    if (val == 100) {
+        output.innerText = 'HIGH SPEED'
+    }
+    if (val == 200) {
+        output.innerText = 'MEDIUM SPEED'
+    }
+    if (val == 300) {
+        output.innerText = 'LOW SPEED'
+    }
+
     localStorage.setItem('speed', val)
     setTimeout(() => {
         window.location.reload()
     }, 400)
 }
-if (localStorage.getItem('speed') == undefined) {
-    localStorage.setItem('speed', 200)
+
+function main_setting_speed() {
+    if (localStorage.getItem('speed') == undefined) {
+        localStorage.setItem('speed', 150)
+    }
 }
-let el = document.getElementById('speed')
-el.value = localStorage.getItem('speed')
-let output = document.getElementById('umjp_minutes');
-output.innerText = localStorage.getItem('speed')
+main_setting_speed()
+
+function index() {
+    let el = document.getElementById('speed')
+    el.value = localStorage.getItem('speed')
+    let output = document.getElementById('umjp_minutes');
+    const val = localStorage.getItem('speed')
+    if (val == 50) {
+        output.innerText = 'HIGH SPEED'
+    }
+    if (val == 100) {
+        output.innerText = 'MEDIUM SPEED'
+    }
+    if (val == 150) {
+        output.innerText = 'LOW SPEED'
+    }
+}
+index()
+
+
+function postData(url, data) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: data,
+        success: (data) => {
+            console.log(data)
+        },
+    });
+}

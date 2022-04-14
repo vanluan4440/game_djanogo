@@ -1,4 +1,6 @@
 
+import email
+import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import User
@@ -49,3 +51,23 @@ def forgot_password(request):
             return JsonResponse({'message':'Update password'})
         else:
             return JsonResponse({'message':'Email not match'})
+def score(request):
+    score = request.POST['score']
+    token = request.POST['token']
+    try:
+        payload = jwt.decode(jwt=token, key="secret", algorithms=['HS256'])
+        user = User.objects.filter(email = payload['email'])
+        if user:
+            user = User.objects.filter(email = payload['email']).update(scorce=score)
+            return JsonResponse({'message': 'Successfully'}, status=200)
+    except jwt.ExpiredSignatureError as e:
+        return JsonResponse({'error': 'Activations link expired'}, status=400)
+    except jwt.exceptions.DecodeError as e:
+        return JsonResponse({'error': 'Invalid Token'}, status=400)
+
+def gettop10(request):
+    data = User.objects.all().order_by('scorce').reverse().values()
+    new = []
+    for item in list(data)[0:10]:
+        new.append({'nickname':item['nickname'],'score':item['scorce']})
+    return JsonResponse({'data':new})

@@ -4,10 +4,39 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
-    <title>Template</title>
+    <title>Snake</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <!-- <link rel="stylesheet" href="bower/font-awesome/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="icon" href="../../static/img/logo_snake.png" type="image/x-icon">
+    <style>
+        #box {
+            width: 100%;
+            height: 400px;
+            margin-top: 35px;
+            border: 2px solid rgb(250, 244, 244);
+            padding-top: 10px;
+            border-radius: 3px;
+            padding-bottom: 10px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .row {
+            width: 100%;
+            float: left;
+            text-align: center;
+        }
+        
+        .col {
+            width: 25%;
+            float: left;
+        }
+        
+        #data {
+            padding-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +50,7 @@
         <button id="myBtn"><img src="../../static/img/setting.png" style="width: 80px; margin-top: 10px;" alt=""></button>
     </div>
     <div id="setting">
-        <button id="game_over"><img src="../../static/img/trophy_00.png" style="width: 80px; margin-top: 10px;" alt=""></button>
+        <button id="trophy_btn"><img src="../../static/img/trophy_00.png" style="width: 80px; margin-top: 10px;" alt=""></button>
     </div>
 
     <!-- modal -->
@@ -33,22 +62,46 @@
             <span class="close">&times;</span>
             <h1 style="padding-bottom: 20px;">Option speed</h1>
 
-            <input type="range" min="100" max="300" step="100" id="speed" class="slider" oninput="updateTextInput(this.value)">
-            <output id="umjp_minutes">100</output>
+            <input type="range" min="50" max="150" step="50" id="speed" class="slider" oninput="updateTextInput(this.value)">
+            <hr>
+            <output id="umjp_minutes" style="text-align: center;"></output>
         </div>
 
     </div>
+    <!-- over game -->
     <div id="game_over" class="modal">
-
         <!-- Modal content -->
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <img src="../../static/img/game_over.jpg" alt="">
+            <h1 style="text-align: center; color: rgb(168, 13, 13);">GAME OVER</h1>
         </div>
 
     </div>
+
+    <!--top -->
+    <div id="top_modat4" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close_top">&times;</span>
+            <div id="box">
+                <div class="row">
+                    <div class="col">TOP</div>
+                    <div class="col">NICKNAME</div>
+                    <div class="col">SCORE</div>
+                </div>
+                <hr>
+                <div id="data">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
     <script async src="{% static 'js/all.js' %}"></script>
-    <script async src="{% static 'js/modal.js' %}"></script>
+    <script src="{% static 'js/modal.js' %}"></script>
+    <script src="{% static 'js/modal_game_over.js' %}"></script>
+    <script src="{% static 'js/top_modal.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
 
 </body>
 
