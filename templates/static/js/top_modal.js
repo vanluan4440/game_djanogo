@@ -8,7 +8,7 @@ top_4.addEventListener('click', () => {
         success: (data) => {
             let str = ''
             data['data'].forEach((el, index) => {
-                if (index == 0) {
+                if (index == 0 && el['score'] > 0) {
                     let item =
                         `
                     <div class="row">
@@ -20,7 +20,7 @@ top_4.addEventListener('click', () => {
                     `
                     str += item
 
-                } else if (index == 1) {
+                } else if (index == 1 && el['score'] > 0) {
                     let item =
                         `
                     <div class="row">
@@ -32,7 +32,7 @@ top_4.addEventListener('click', () => {
                     `
                     str += item
 
-                } else if (index == 2) {
+                } else if (index == 2 && el['score'] > 0) {
                     let item =
                         `
                     <div class="row">

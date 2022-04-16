@@ -40,3 +40,5 @@ def basic(request):
         return redirect('/login')
     else:
         return render(request,template_name='basic/index.html')
+
+

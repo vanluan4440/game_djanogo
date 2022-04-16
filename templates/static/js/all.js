@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var domain = 'http://192.168.1.7:8000'
 var url_score = '/api/score'
 var SNAKE_SPRITE = "snake_tiles";
-var TAIL = 2;
+var TAIL = 3;
 var mark = 0;
 let dead = new Audio();
 let eat = new Audio();
@@ -206,6 +206,8 @@ var SnakeGame =
                     this.dk_play = false
                     modal1.style.display = 'block'
                     postData(`${domain+url_score}`, { token: localStorage.getItem('token'), score: mark })
+                    $('#mark_over').text(mark)
+                    console.log(mark);
                     dont_play = false
                 } //    Draw methods
 
@@ -221,11 +223,11 @@ var SnakeGame =
                 var tileLengthInCanvasX = this.canvas.width / this.tileSize;
                 var tileLengthInCanvasY = this.canvas.height / this.tileSize;
 
-                for (var i = 0; i < tileLengthInCanvasX; i++) {
-                    for (var j = 0; j < tileLengthInCanvasY; j++) {
-                        this.addTileToCanvas(1, 3, i * this.tileSize, j * this.tileSize);
-                    }
-                }
+                // for (var i = 0; i < tileLengthInCanvasX; i++) {
+                //     for (var j = 0; j < tileLengthInCanvasY; j++) {
+                //         this.addTileToCanvas(1, 3, i * this.tileSize, j * this.tileSize);
+                //     }
+                // }
             }
         }, {
             key: "drawSnake",

@@ -56,9 +56,10 @@ def score(request):
     token = request.POST['token']
     try:
         payload = jwt.decode(jwt=token, key="secret", algorithms=['HS256'])
-        user = User.objects.filter(email = payload['email'])
+        user = User.objects.filter(email = payload['email']).values()
         if user:
-            user = User.objects.filter(email = payload['email']).update(scorce=score)
+            if int(score) > int(user[0]['scorce']):
+                User.objects.filter(email = payload['email']).update(scorce=score)
             return JsonResponse({'message': 'Successfully'}, status=200)
     except jwt.ExpiredSignatureError as e:
         return JsonResponse({'error': 'Activations link expired'}, status=400)
