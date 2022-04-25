@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+    <link rel="icon" href="../../static/img/logo_snake.png" type="image/x-icon">
+    <style>
+        body {
+            padding: auto 0px;
+            margin: 0px;
+            background-image: linear-gradient(rgb(48, 151, 41), rgb(159, 214, 144));
+            width: 100%;
+            height: 100vh;
+        }
+        
+        .top {
+            display: flex;
+            flex: 1 1;
+            padding-top: 5px;
+            margin-left: 5px;
+        }
+        
+        img {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .input_star {
+            background-color: rgb(230, 203, 219);
+            height: 50px;
+            width: 150px;
+            border-radius: 5px;
+        }
+        
+        .input_app {
+            background-color: rgb(229, 216, 212);
+            height: 50px;
+            width: 150px;
+            border-radius: 5px;
+            margin-left: 20px;
+        }
+        
+        #egg_box {
+            height: 300px;
+            width: 250px;
+        }
+        
+        .box {
+            margin-top: 150px;
+            margin-left: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <div class="input_star">
+            <div class="start">
+                <img src="../../static/img/star.png" alt=""> <span style="font-size: 32px; position: relative;top: -15px;">15/30</span>
+            </div>
+        </div>
+
+        <div class="input_app">
+            <div class="apple">
+                <img src="../../static/img/appple.png" alt=""> <span style="font-size: 32px; position: relative;top: -15px;">1530</span>
+            </div>
+        </div>
+        <div class="box">
+            <img src="../../static/img/Picture2.png" id="egg_box" alt="">
+            <img src="../../static/img/Picture3.png" id="egg_box" alt="">
+            <img src="../../static/img/Picture4.png" id="egg_box" alt="">
+        </div>
+
+
+
+
+    </div>
+
+</body>
+
+</html>

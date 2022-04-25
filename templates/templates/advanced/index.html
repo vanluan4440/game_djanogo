@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced</title>
+    <link rel="icon" href="../../static/img/logo_snake.png" type="image/x-icon">
+    <style>
+        body {
+            padding: auto 0px;
+            margin: 0px;
+            background-image: linear-gradient(rgb(48, 151, 41), rgb(159, 214, 144));
+            width: 100%;
+            height: 100vh;
+        }
+        
+        .main {
+            width: 100%;
+            height: 90vh;
+            display: flex;
+            flex: 1 1 1;
+            justify-content: center;
+        }
+        
+        .egg {
+            height: 350px;
+            width: 50%;
+            margin-top: auto;
+            /* Important */
+            margin-bottom: auto;
+            /* Important */
+            margin-left: 50px;
+            background-image: url('../../static/img/3_egg.png');
+            background-size: 100%;
+            display: flex;
+            flex: 1 1 1;
+            background-repeat: no-repeat;
+        }
+        
+        .btn {
+            margin-top: 10%;
+            float: left;
+            height: 10%;
+            background-color: transparent;
+            border-style: none;
+        }
+        
+        .btn_1 {
+            width: 270px;
+        }
+        
+        .btn_2 {
+            margin-left: 55px;
+            width: 265px;
+        }
+        
+        .btn_3 {
+            margin-left: 55px;
+            width: 265px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="egg">
+            <button class="btn btn_1" onclick="router(1)">
+                <img src="../../static/img/start_index.png" style="position: relative;top:-120px;height:80px;" alt="">
+                <h1 style="position:relative;top: -190px;">15</h1>
+                <img id="b1" src="../../static/img/lock.png" style="height: 100px; width: 85%;position: relative;top: -100px;" alt="">
+            </button>
+            <button class="btn btn_2" onclick="router(2)">
+                <img src="../../static/img/start_index.png" style="position: relative;top:-120px;height:80px;" alt="">
+                <h1 style="position:relative;top: -190px;">15</h1>
+                <img id="b2" src="../../static/img/lock.png" style="height: 100px; width: 85%;position: relative;top: -100px;" alt="">
+            </button>
+            <button class="btn btn_3" onclick="router(3)">
+                <img src="../../static/img/start_index.png" style="position: relative;top:-120px;height:80px;" alt="">
+                <h1 style="position:relative;top: -190px;">15</h1>
+                <img id="b3" src="../../static/img/lock.png" style="height: 100px; width: 89%;position: relative;top: -100px;" alt="">
+            </button>
+
+        </div>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
+<script>
+    function router(round) {
+        $.ajax({
+            url: `${window.location.origin}/updateRound`,
+            method: 'POST',
+            data: {
+                'round': Number(round)
+            },
+            success: (res) => {
+                console.log(res);
+                window.location.replace('/game_advanced')
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+    }
+
+    function block() {
+        $.ajax({
+            url: `${window.location.origin}/checkRound`,
+            method: 'POST',
+            success: (res) => {
+                console.log(res);
+                if (res['data']['Roud1'] == false) {
+                    $('#b1').show
+                } else {
+                    $('#b1').hide()
+                }
+                if (res['data']['Roud2'] == false) {
+                    $('#b2').show
+                } else {
+                    $('#b2').hide()
+                }
+                if (res['data']['Roud3'] == false) {
+                    $('#b3').show
+                } else {
+                    $('#b3').hide()
+                }
+
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+
+    }
+    block()
+</script>
+
+
+</html>

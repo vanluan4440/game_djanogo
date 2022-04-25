@@ -14,7 +14,7 @@ function _defineProperties(target, props) {
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var domain = 'http://192.168.1.7:8000'
+var domain = 'http://127.0.0.1:8000'
 var url_score = '/api/score'
 var SNAKE_SPRITE = "snake_tiles";
 var TAIL = 3;
