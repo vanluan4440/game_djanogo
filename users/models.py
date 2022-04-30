@@ -21,3 +21,15 @@ class StarOnRound(models.Model):
   Round = models.IntegerField(default=0)
   Level = models.IntegerField(default=0)
   Star = models.IntegerField(default=0)
+
+class RoundAndLevel(models.Model):
+  speed = models.IntegerField(default=0)
+  Round = models.IntegerField(default=0)
+  Level = models.IntegerField(default=0)
+  ImgSnake = models.CharField(max_length=255)
+  Background = models.CharField(max_length=255, default='')
+  Star = models.IntegerField(default=0)
+  icon = models.CharField(default='', max_length=255)
+
+
+    

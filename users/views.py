@@ -3,7 +3,7 @@ import email
 import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from .models import User
+from .models import RoundAndLevel, User
 from django.contrib.auth.hashers import make_password, check_password
 import jwt
 from django.core.mail import send_mail
@@ -72,3 +72,44 @@ def gettop10(request):
     for item in list(data)[0:10]:
         new.append({'nickname':item['nickname'],'score':item['scorce']})
     return JsonResponse({'data':new})
+
+def getRoundAndId(request):
+    round = request.POST['round']
+    level = request.POST['level']
+    data = list(RoundAndLevel.objects.filter(Round=round,Level=level).values())[0]
+    return JsonResponse({'data': data})
+
+def UpdateMarkByRoundIDAndLevel(request):
+    round = request.POST['round']
+    level = request.POST['level']
+    point = int(request.POST['point'])
+    star = 0
+    if point <=10:
+        star = 1
+    elif point >10 and point <20:
+        star = 2
+    else:
+        star = 3
+    token =  request.POST['token']
+    try:
+        payload = jwt.decode(jwt=token, key="secret", algorithms=['HS256'])
+        user = list(User.objects.filter(email = payload['email']).values())[0]
+        roundData = list(RoundAndLevel.objects.filter(Round=round,Level=level).values())[0]
+        if user:
+            totalEat = point + user['totalEat']
+            totalStar = star + user['totalStar']
+            User.objects.filter(email=payload['email']).update(totalEat=totalEat,totalStar=totalStar)
+            if(star > roundData['Star']):
+                RoundAndLevel.objects.filter(Round=round,Level=level).update(Star=star)
+            return JsonResponse({'message': totalEat,'star':totalStar}, status=200)
+    except jwt.ExpiredSignatureError as e:
+        return JsonResponse({'error': 'Activations link expired'}, status=400)
+    except jwt.exceptions.DecodeError as e:
+        return JsonResponse({'error': 'Invalid Token'}, status=400)
+
+def getAllRoundAndStar(request):
+    round = request.POST['round']
+    data = list(RoundAndLevel.objects.filter(Round=round).values())
+    return JsonResponse({'data':data})
+    
+

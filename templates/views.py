@@ -101,4 +101,32 @@ def updateRound(request):
         if round == '3':
             User.objects.filter(email=payload['email']).update(Roud3=True)
         return JsonResponse({'message': 'succesfully'})
+def gamePlayAdvanced(request):
+    token = request.COOKIES.get('token')
+    if not token:
+        return redirect('/login')
+    try:
+        payload = jwt.decode(token,'secret',algorithms='HS256')
+    except jwt.ExpiredSignatureError:
+        return redirect('/login')
+    user = User.objects.filter(email =payload['email'] ).count()
+    if user <1:
+        return redirect('/login')
+    else:
+        return render(request,template_name='levelGame/index.html')
+def getTotal(request):
+    token = request.COOKIES.get('token')
+    if not token:
+        return redirect('/login')
+    try:
+        payload = jwt.decode(token,'secret',algorithms='HS256')
+    except jwt.ExpiredSignatureError:
+        return redirect('/login')
+    user = User.objects.filter(email =payload['email'] ).count()
+    if user <1:
+        return redirect('/login')
+    else:
+        data = list(User.objects.filter(email =payload['email']).values())[0]
+        return JsonResponse({'data':data})
+
 

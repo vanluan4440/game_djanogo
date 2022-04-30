@@ -68,17 +68,17 @@
         <div class="egg">
             <button class="btn btn_1" onclick="router(1)">
                 <img src="../../static/img/start_index.png" style="position: relative;top:-120px;height:80px;" alt="">
-                <h1 style="position:relative;top: -190px;">15</h1>
+                <h1 style="position:relative;top: -190px;">9</h1>
                 <img id="b1" src="../../static/img/lock.png" style="height: 100px; width: 85%;position: relative;top: -100px;" alt="">
             </button>
             <button class="btn btn_2" onclick="router(2)">
                 <img src="../../static/img/start_index.png" style="position: relative;top:-120px;height:80px;" alt="">
-                <h1 style="position:relative;top: -190px;">15</h1>
+                <h1 style="position:relative;top: -190px;">9</h1>
                 <img id="b2" src="../../static/img/lock.png" style="height: 100px; width: 85%;position: relative;top: -100px;" alt="">
             </button>
             <button class="btn btn_3" onclick="router(3)">
                 <img src="../../static/img/start_index.png" style="position: relative;top:-120px;height:80px;" alt="">
-                <h1 style="position:relative;top: -190px;">15</h1>
+                <h1 style="position:relative;top: -190px;">9</h1>
                 <img id="b3" src="../../static/img/lock.png" style="height: 100px; width: 89%;position: relative;top: -100px;" alt="">
             </button>
 
@@ -97,7 +97,7 @@
             },
             success: (res) => {
                 console.log(res);
-                window.location.replace('/game_advanced')
+                window.location.replace(`/game_advanced?round=${round}`)
             },
             error: (err) => {
                 console.log(err);

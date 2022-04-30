@@ -60,25 +60,86 @@
     <div class="top">
         <div class="input_star">
             <div class="start">
-                <img src="../../static/img/star.png" alt=""> <span style="font-size: 32px; position: relative;top: -15px;">15/30</span>
+                <img src="../../static/img/star.png" alt=""> <span style="font-size: 32px; position: relative;top: -15px;" id="totalStar"></span>
             </div>
         </div>
 
         <div class="input_app">
             <div class="apple">
-                <img src="../../static/img/appple.png" alt=""> <span style="font-size: 32px; position: relative;top: -15px;">1530</span>
+                <img src="../../static/img/appple.png" alt=""> <span style="font-size: 32px; position: relative;top: -15px;" id="totalEat"></span>
             </div>
         </div>
         <div class="box">
-            <img src="../../static/img/Picture2.png" id="egg_box" alt="">
-            <img src="../../static/img/Picture3.png" id="egg_box" alt="">
-            <img src="../../static/img/Picture4.png" id="egg_box" alt="">
+            <img src="../../static/img/Picture2.png" onclick="router(1)" id="egg_box" alt="">
+            <div class="star1" style="height: auto;display: flex; position: absolute;top: 270px;left: 455px;">
+
+            </div>
+            <img src="../../static/img/Picture3.png" onclick="router(2)" id="egg_box" alt="">
+            <div class="star2" style="height: auto;display: flex;position: absolute;top: 270px;left: 710px;">
+            </div>
+            <img src="../../static/img/Picture4.png" onclick="router(3)" id="egg_box" alt="">
+            <div class="star3" style="height: auto;display: flex;position: absolute;top: 270px;left: 970px;">
+            </div>
         </div>
 
 
 
 
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        const queryString = window.location.search;
+        const url = new URLSearchParams(queryString)
+
+        function router(level) {
+            const round = url.get('round')
+            window.location.replace(`${window.location.origin}/gamePlayAdvanced?round=${round}&level=${level}`)
+        }
+
+        function getAllRoundAndStar() {
+            $.ajax({
+                url: `${window.location.origin}/api/getAllRoundAndStar`,
+                type: 'POST',
+                data: {
+                    round: url.get('round')
+                },
+                success: (res) => {
+
+                    for (let i = 0; i < res['data'][0]['Star']; i++) {
+                        let str = '<img src="../../static/img/star.png" alt="" style="width:30px;height: 30px;">'
+                        $('.star1').append(str)
+                    }
+                    for (let i = 0; i < res['data'][1]['Star']; i++) {
+                        let str = '<img src="../../static/img/star.png" alt="" style="width:30px;height: 30px;">'
+                        $('.star2').append(str)
+                    }
+                    for (let i = 0; i < res['data'][2]['Star']; i++) {
+                        let str = '<img src="../../static/img/star.png" alt="" style="width:30px;height: 30px;">'
+                        $('.star3').append(str)
+                    }
+                },
+                error: (err) => {
+                    console.log(err);
+                }
+            })
+
+        }
+        getAllRoundAndStar()
+
+        function settingTotal() {
+            $.ajax({
+                url: `${window.location.origin}/getTotal`,
+                method: 'GET',
+                success: (data) => {
+                    console.log(data['data']['totalStar']);
+                    $('#totalStar').text(`${data['data']['totalStar']}`)
+                    $('#totalEat').text(`${data['data']['totalEat']}`)
+                }
+            })
+        }
+        settingTotal()
+    </script>
 
 </body>
 

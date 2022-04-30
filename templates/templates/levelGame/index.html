@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Snake</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="bower/font-awesome/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="{% static 'css/all2.css' %}">
+    <link rel="icon" href="../../static/img/logo_snake.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        #box {
+            width: 100%;
+            height: 400px;
+            margin-top: 35px;
+            border: 2px solid rgb(15, 15, 15);
+            padding-top: 10px;
+            border-radius: 3px;
+            padding-bottom: 10px;
+            color: rgb(18, 17, 17);
+            font-size: 20px;
+        }
+        
+        .row {
+            width: 100%;
+            float: left;
+            text-align: center;
+        }
+        
+        .col {
+            width: 25%;
+            float: left;
+        }
+        
+        #data {
+            padding-top: 10px;
+        }
+        
+        .box_game_over {
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+        
+        .right {
+            width: 50%;
+        }
+        
+        .left {
+            width: 50%;
+        }
+        
+        button {
+            padding: 10px;
+            background-color: #17abd5;
+            color: white;
+            font-size: 20px;
+            border-radius: 5px;
+            border: none;
+            margin-right: 5px;
+        }
+        
+        button:hover {
+            background-color: #5194a6;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="snake_game" width="1000" height="700" style="border: 7px solid rgb(110, 104, 104);border-radius: 5px;background-size: cover;"></canvas>
+    <div id="score">
+        <img id="icon" style="width: 80px; margin-top: 10px;" alt="">
+        <span id="index">0</span>
+    </div>
+    <!-- over game -->
+    <div id="game_over" class="modal">
+        <!-- class="modal" -->
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="box_game_over">
+                <div class="left">
+                    <img src="../../static/img/snake_over.png" style="height: 300px;" alt="">
+                </div>
+                <div class="right">
+                    <img id="icon2" style="width: 80px; margin-top: 10px;" alt=""> <span id="mark_over" style="font-size: 70px;position: relative;top: -10px;"></span>
+                </div>
+            </div>
+            <div style="    width: 100%; display: flex; justify-content: center;">
+                <button onclick="playAgain()">Play Again</button>
+                <button onclick="Home()">Home</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <script async src="{% static 'js/advanced.js' %}"></script>
+    <!-- <script src="{% static 'js/modal.js' %}"></script> -->
+    <script src="{% static 'js/modal_game_over.js' %}"></script>
+    <!-- <script src="{% static 'js/top_modal.js' %}"></script> -->
+    <!-- <script src="{% static 'js/key.js' %}"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <script>
+        function playAgain() {
+            window.location.reload()
+        }
+
+        function Home() {
+            window.location.replace(`${window.location.origin}/advanced`)
+        }
+    </script>
+</body>
+
+</html>

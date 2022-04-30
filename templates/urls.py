@@ -12,5 +12,9 @@ urlpatterns = [
     path('advanced',views.advanced,name='advanced'),
     path('game_advanced',views.game_advanced,name='game_advanced'),
     path('checkRound',views.checkRound,name="checkRound"),
-    path('updateRound',views.updateRound,name="updateRound")
+    path('updateRound',views.updateRound,name="updateRound"),
+    path('gamePlayAdvanced',views.gamePlayAdvanced,name="gamePlayAdvanced"),
+    #getTotal
+    path('getTotal',views.getTotal,name="getTotal"),
+
 ]
