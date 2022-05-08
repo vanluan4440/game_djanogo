@@ -26,13 +26,12 @@ SECRET_KEY = 'django-insecure-u5qfzhhnh-(j$p#u9hh%d+na6w(#3*(1rjexwszwbdmnjx797s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.7','localhost']
+ALLOWED_HOSTS = ['127.0.0.1','localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'livesync',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

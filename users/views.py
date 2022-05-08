@@ -53,7 +53,7 @@ def forgot_password(request):
             return JsonResponse({'message':'Email not match'})
 def score(request):
     score = request.POST['score']
-    token = request.POST['token']
+    token = request.COOKIES.get('token')
     try:
         payload = jwt.decode(jwt=token, key="secret", algorithms=['HS256'])
         user = User.objects.filter(email = payload['email']).values()
@@ -90,7 +90,7 @@ def UpdateMarkByRoundIDAndLevel(request):
         star = 2
     else:
         star = 3
-    token =  request.POST['token']
+    token = request.COOKIES.get('token')
     try:
         payload = jwt.decode(jwt=token, key="secret", algorithms=['HS256'])
         user = list(User.objects.filter(email = payload['email']).values())[0]

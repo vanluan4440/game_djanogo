@@ -26,6 +26,7 @@ let right = new Audio();
 let left = new Audio();
 let down = new Audio();
 var dont_play = true
+var arrayBooms = []
 
 dead.src = "../../static/music/dead.mp3";
 eat.src = "../../static/music/eat.mp3";
@@ -54,7 +55,9 @@ var SnakeGame =
             this.segments = [];
             this.positions = {};
             this.movement = null;
+
             this.init();
+
         }
 
         _createClass(SnakeGame, [{
@@ -91,6 +94,7 @@ var SnakeGame =
                         this.addApple();
                         this.updateSegments();
                         this.changeSnakePosition();
+                        
 
                         if (!this.gOver && this.dk_play == true) {
                             this.drawSnake();
@@ -116,9 +120,21 @@ var SnakeGame =
             }, {
                 key: "updateApplePos",
                 value: function updateApplePos() {
+                    // apple
                     this.positions.apple = {};
                     this.positions.apple.x = Math.floor(Math.random() * (this.canvas.width / this.tileSize)) * this.tileSize;
                     this.positions.apple.y = Math.floor(Math.random() * (this.canvas.height / this.tileSize)) * this.tileSize;
+                    // boom
+                    
+                    
+                    this.positions.booms = {}
+                    this.positions.booms.x = Math.floor(Math.random() * (this.canvas.width / this.tileSize)) * this.tileSize;
+                    this.positions.booms.y = Math.floor(Math.random() * (this.canvas.height / this.tileSize)) * this.tileSize;
+                    arrayBooms.push(this.positions.booms)
+                    
+                    
+
+                    
                 }
             }, {
                 key: "updateSegments",
@@ -157,6 +173,19 @@ var SnakeGame =
                         eat.play()
 
                     } // snake eat an segment
+                    arrayBooms.forEach(element => {
+                        if (this.positions.snake.x === element.x && this.positions.snake.y === element.y) {
+                            this.gOver = true;
+                            dead.play()
+                            this.dk_play = false
+                            modal1.style.display = 'block'
+                            $('#mark_over').text(mark)
+                            console.log(mark);
+                            dont_play = false
+                            UpdateMarkByRoundIDAndLevel(mark)
+    
+                        }
+                    });
 
 
                     this.segments.forEach(function(segment) {
@@ -215,6 +244,10 @@ var SnakeGame =
                 key: "addApple",
                 value: function addApple() {
                     this.addTileToApple(0, 3, this.positions.apple.x, this.positions.apple.y);
+                    arrayBooms.forEach(element => {
+                        this.addTileToBooms(0, 3,element.x, element.y);
+                    });
+                   
                 }
             }, {
                 key: "setBackground",
@@ -406,7 +439,17 @@ var SnakeGame =
 
 
                 }
+            },
+            {
+                key: "addTileToBooms",
+                value: function addTileToBooms(tpx, tpy, sx, sy) {
+                    // image, posX in tile.png, posY in tile.png, tileWidth, tileHeight, posX in canvas, posY in canvas, tileSize in canvas = 25
+                    return this.ctx.drawImage(this.images['BOOMS'], sx, sy, this.tileSize + 5, this.tileSize + 10);
+
+
+                }
             }
+
 
         ]);
 
@@ -422,11 +465,19 @@ function setting(speed, path) {
         images: [{
             name: SNAKE_SPRITE,
             path: path
-        }, ]
+        }, 
+        {
+            name: 'BOOMS',
+            path: '../../static/img/boom.png'
+        }
+    
+    ]
     });
+    
 }
 
 function getRoundAndId() {
+   
     const queryString = window.location.search;
     const url = new URLSearchParams(queryString)
     $.ajax({
@@ -441,6 +492,7 @@ function getRoundAndId() {
             $("#icon").attr("src", res['data']['icon']);
             $("#icon2").attr("src", res['data']['icon']);
             $('#snake_game').css('background-image', `url(${res['data']['Background']})`);
+            console.log(res);
 
         },
         error: (err) => {
@@ -448,6 +500,7 @@ function getRoundAndId() {
         }
     })
 }
+
 getRoundAndId()
 
 function UpdateMarkByRoundIDAndLevel(point) {
