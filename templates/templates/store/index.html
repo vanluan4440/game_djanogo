@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Snake</title>
+    <link rel="icon" href="../../static/img/logo_snake.png" type="image/x-icon">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body{
+            padding: 50px 200px;
+            background-color: rgb(118, 201, 79);
+            font-family: 'Roboto', sans-serif;
+        }
+        
+    </style>
+</head>
+
+<body onload="getData()">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+       
+        
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        function getData(){
+            $.ajax({
+                url: `${window.location.origin}/api/getDataStore`,
+                success:(res)=>{
+                    res['data'].forEach(element => {
+                        let card = `
+                        <div class="col-3">
+                            <div class="card">
+                                <img src="${element['src_img']}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                <h5 class="card-title">Price: ${element['price']}</h5>
+                                <p class="card-text">Description: ${element['desc']}</p>
+                                <button type="button" onclick="ApplyData('${element['src_img']}')" class="btn btn-danger">Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        `
+                        $('.row').append(card)
+                    });
+                    
+                },
+                error:(err)=>{
+                    console.log(err);
+                }
+            })
+        }
+        function ApplyData(img){
+            localStorage.setItem('APPLY_DATA',img)
+            alert('Apply success')
+        }
+        
+    </script>
+</body>
+
+</html>

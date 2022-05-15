@@ -488,11 +488,19 @@ function getRoundAndId() {
             level: url.get('level'),
         },
         success: (res) => {
-            setting(res['data']['speed'], res['data']['ImgSnake'])
-            $("#icon").attr("src", res['data']['icon']);
-            $("#icon2").attr("src", res['data']['icon']);
-            $('#snake_game').css('background-image', `url(${res['data']['Background']})`);
-            console.log(res);
+            if(localStorage.getItem('APPLY_DATA') == null){
+                setting(res['data']['speed'], res['data']['ImgSnake'])
+                $("#icon").attr("src", res['data']['icon']);
+                $("#icon2").attr("src", res['data']['icon']);
+                $('#snake_game').css('background-image', `url(${res['data']['Background']})`);
+            }
+            else{
+                setting(res['data']['speed'], localStorage.getItem('APPLY_DATA'))
+                $("#icon").attr("src", res['data']['icon']);
+                $("#icon2").attr("src", res['data']['icon']);
+                $('#snake_game').css('background-image', `url(${res['data']['Background']})`);
+            }
+           
 
         },
         error: (err) => {

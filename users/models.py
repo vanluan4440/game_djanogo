@@ -1,4 +1,4 @@
-from msilib.schema import Class
+
 from django.db import models
 
 # Create your models here.
@@ -30,6 +30,12 @@ class RoundAndLevel(models.Model):
   Background = models.CharField(max_length=255, default='')
   Star = models.IntegerField(default=0)
   icon = models.CharField(default='', max_length=255)
+
+class Store(models.Model):
+  src_img = models.CharField(max_length=255, default='')
+  price = models.IntegerField(default=0)
+  desc = models.CharField(max_length=255, default='')
+
 
 
     

@@ -130,3 +130,30 @@ def getTotal(request):
         return JsonResponse({'data':data})
 
 
+def store(request):
+    token = request.COOKIES.get('token')
+    if not token:
+        return redirect('/login')
+    try:
+        payload = jwt.decode(token,'secret',algorithms='HS256')
+    except jwt.ExpiredSignatureError:
+        return redirect('/login')
+    user = User.objects.filter(email =payload['email'] ).count()
+    if user <1:
+        return redirect('/login')
+    else:
+        return render(request,template_name='store/index.html')
+
+def paid_snake(request):
+    token = request.COOKIES.get('token')
+    if not token:
+        return redirect('/login')
+    try:
+        payload = jwt.decode(token,'secret',algorithms='HS256')
+    except jwt.ExpiredSignatureError:
+        return redirect('/login')
+    user = User.objects.filter(email =payload['email'] ).count()
+    if user <1:
+        return redirect('/login')
+    else:
+        return JsonResponse({"hi":'hi'})

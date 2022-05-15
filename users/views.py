@@ -3,7 +3,7 @@ import email
 import json
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from .models import RoundAndLevel, User
+from .models import RoundAndLevel, User,Store
 from django.contrib.auth.hashers import make_password, check_password
 import jwt
 from django.core.mail import send_mail
@@ -111,5 +111,8 @@ def getAllRoundAndStar(request):
     round = request.POST['round']
     data = list(RoundAndLevel.objects.filter(Round=round).values())
     return JsonResponse({'data':data})
-    
+
+def getDataStore(request):
+    data = list(Store.objects.filter().values())
+    return JsonResponse({'data': data})
 

@@ -54,6 +54,14 @@
             margin-top: 150px;
             margin-left: 5%;
         }
+        #store{
+            position:fixed;
+            margin-left: 90%;
+            padding: 15px 25px;
+            font-size: 24px;
+            background-color: transparent;
+            border: none;
+        }
     </style>
 </head>
 
@@ -70,6 +78,12 @@
                 <img src="../../static/img/appple.png" alt=""> <span style="font-size: 32px; position: relative;top: -15px;" id="totalEat"></span>
             </div>
         </div>
+        <button id="store" onclick="routerStore()">
+            <img src="../../static/img/store.webp" alt="">
+        </button>
+
+        
+
         <div class="box">
             <img src="../../static/img/Picture2.png" onclick="router(1)" id="egg_box" alt="">
             <div class="star1" style="height: auto;display: flex; position: absolute;top: 270px;left: 455px;">
@@ -140,6 +154,10 @@
             })
         }
         settingTotal()
+
+        function routerStore(){
+            window.open(`${window.location.origin}/store`)
+        }
     </script>
 
 </body>

@@ -14,7 +14,9 @@ urlpatterns = [
     path('checkRound',views.checkRound,name="checkRound"),
     path('updateRound',views.updateRound,name="updateRound"),
     path('gamePlayAdvanced',views.gamePlayAdvanced,name="gamePlayAdvanced"),
+    path('store',views.store,name="store"),
     #getTotal
     path('getTotal',views.getTotal,name="getTotal"),
+    path('paid_snake',views.paid_snake, name='paid_snake')
 
 ]
