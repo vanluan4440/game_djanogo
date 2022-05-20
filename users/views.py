@@ -116,3 +116,10 @@ def getDataStore(request):
     data = list(Store.objects.filter().values())
     return JsonResponse({'data': data})
 
+def gettopRank10(request):
+    data = User.objects.all().order_by('totalStar').reverse().values()
+    new = []
+    for item in list(data)[0:10]:
+        new.append({'nickname':item['nickname'],'star':item['totalStar']})
+    return JsonResponse({'data':new})
+

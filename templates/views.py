@@ -145,7 +145,9 @@ def store(request):
         return render(request,template_name='store/index.html')
 
 def paid_snake(request):
-    token = request.COOKIES.get('token')
+    # token = request.COOKIES.get('token')
+    token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imx1YW5AZ21haWwuY29tIn0.AtGLRlBgZZEEUJOqG-eSFUhbiXJUpP-4jMyZ9OMsq6M'
+    apple = request.POST['apple']
     if not token:
         return redirect('/login')
     try:
@@ -156,4 +158,10 @@ def paid_snake(request):
     if user <1:
         return redirect('/login')
     else:
-        return JsonResponse({"hi":'hi'})
+        user_data = User.objects.filter(email =payload['email'] ).values()
+        newValueEat = list(user_data)[0]['totalEat'] - int(apple)
+        if newValueEat >0:
+            User.objects.filter(email=payload['email']).update(totalEat=newValueEat)
+            return JsonResponse({'message':'success'}) 
+        else:
+            return JsonResponse({'message':'payment failed'})

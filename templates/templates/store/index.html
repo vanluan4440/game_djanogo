@@ -53,7 +53,22 @@
                 </div>
               </div>
             </div>
-      </div>
+    </div>
+    <div id="message" class="modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Notification</h5>
+              <button type="button" onclick="closed_mess()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <p style="text-align: center;" id="show_mess"></p>
+            </div>
+           
+          </div>
+        </div>
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function getData(){
@@ -66,9 +81,9 @@
                             <div class="card">
                                 <img src="${element['src_img']}" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                <h5 class="card-title">Price: ${element['price']}</h5>
+                                <h5 class="card-title">Price: ${element['price']} <img src='../../static/img/appple.png' style="width:20px;margin-top:-5px"/></h5>
                                 <p class="card-text">Description: ${element['desc']}</p>
-                                <button class="btn btn-danger" onclick="openDialog('${element['src_img']}')">Apple</button>
+                                <button class="btn btn-danger" onclick="openDialog('${element['src_img']}', ${element['price']})">Apple</button>
                                 </div>
                             </div>
                         </div>
@@ -83,29 +98,63 @@
                 }
             })
         }
-        function ApplyData(img){
-            localStorage.setItem('APPLY_DATA',img)
-            alert('Apply success')
-            
-        }
+        
         
     </script>
     <script>
         var modal = document.getElementById("myModal");
-        function openDialog(img){
+        var mess_dialog = document.getElementById("message")
+        function openDialog(img,price){
             modal.style.display = "block";
             localStorage.setItem('cofirmData', img)
+            localStorage.setItem('data_price',price)
 
         }
         function closed(){
             modal.style.display = "none";
             localStorage.removeItem('cofirmData')
+            localStorage.removeItem('data_price')
         }
         function confirmYes(){
-            const data = localStorage.getItem('cofirmData')
-            localStorage.setItem('APPLY_DATA',data)
-            modal.style.display = "none";
-            localStorage.removeItem('cofirmData')
+            $.ajax({
+                url:`${window.location.origin}/paid_snake`,
+                type:'POST',
+                data:{apple: localStorage.getItem('data_price')},
+                success:(res)=>{
+                    console.log(res);
+                    if(res['message'] =='success'){
+                        localStorage.setItem('APPLY_DATA',localStorage.getItem('cofirmData'))
+                        modal.style.display = "none";
+                        mess_dialog.style.display = 'block'
+                        $('#show_mess').text('Payment success')
+                        localStorage.removeItem('cofirmData')
+                        localStorage.removeItem('data_price')
+                    }
+                    else{
+                        modal.style.display = "none";
+                        localStorage.removeItem('cofirmData')
+                        localStorage.removeItem('data_price')
+                        mess_dialog.style.display = 'block'
+                        $('#show_mess').text('Payment failed')
+
+                    }
+                    
+                },
+                error:(err)=>{
+                    localStorage.removeItem('cofirmData')
+                    localStorage.removeItem('data_price')
+                    console.log(err);
+                    mess_dialog.style.display = 'block'
+                    $('#show_mess').text('payment failed')
+                }
+            })
+            // const data = localStorage.getItem('cofirmData')
+            // localStorage.setItem('APPLY_DATA',data)
+            // modal.style.display = "none";
+            // localStorage.removeItem('cofirmData')
+        }
+        function closed_mess(){
+            mess_dialog.style.display = 'none'
         }
         
     </script>

@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Snake</title>
     <link rel="icon" href="../../static/img/logo_snake.png" type="image/x-icon">
+    
     <style>
         body {
             padding: auto 0px;
@@ -62,6 +63,75 @@
             background-color: transparent;
             border: none;
         }
+        #trophy{
+            position:fixed;
+            margin-left: 94%;
+            padding: 15px 25px;
+            font-size: 24px;
+            background-color: transparent;
+            border: none;
+
+        }
+        
+        .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+        background-color: rgb(246, 240, 240);
+        margin: 5% auto; /* 15% from the top and centered */
+        padding: 20px;
+        width: 50%; /* Could be more or less, depending on screen size */
+        border-radius: 10px;
+        }
+
+        /* The Close Button */
+        .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        }
+        .row{
+            background-color: rgb(94, 173, 212);
+            width: 95%;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: flex;
+            flex: 1;
+            text-align: center;
+        }
+        .col-1{
+            font-size: 24px;
+            padding-left: 10px;
+            width: 20%;
+        }
+        .col-2{
+            font-size: 24px;
+            width: 50%;
+        }
+        .col-3{
+            font-size: 24px;
+            width: 20%;
+        }
     </style>
 </head>
 
@@ -80,6 +150,9 @@
         </div>
         <button id="store" onclick="routerStore()">
             <img src="../../static/img/store.webp" alt="">
+        </button>
+        <button id="trophy" onclick="openDialog()">
+            <img src="../../static/img/trophy_00.png" alt="">
         </button>
 
         
@@ -100,6 +173,20 @@
 
 
 
+    </div>
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+          <span class="close" onclick="closedDialog()">&times;</span>
+          <img src="../../static/img/rank.jpg" style="margin-left: 45%; width: 70px; height: 70px;" alt="">
+          <hr>
+          <div class="main_render">
+                
+    
+          </div>
+        </div>
+      
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -157,6 +244,45 @@
 
         function routerStore(){
             window.open(`${window.location.origin}/store`)
+        }
+        function openDialog(){
+            const el = document.getElementById('myModal')
+            el.style.display = 'block'
+            getDataRank()
+        }
+        function closedDialog(){
+            const el = document.getElementById('myModal')
+            el.style.display = 'none'
+            window.location.reload()
+
+        }
+
+        function getDataRank(){
+            $.ajax({
+                url:`${window.location.origin}/api/gettopRank10`,
+                type:'GET',
+                success:(res)=>{
+                    res.data.forEach((element,index) => {
+                       let el = `
+                       <div class="row">
+                            <div class="col-1">
+                                ${index + 1}
+                            </div>
+                            <div class="col-2">
+                                ${element.nickname}
+                            </div>
+                            <div class="col-3">
+                                ${element.star}
+                            </div>
+                        </div>
+                       `
+                       $('.main_render').append(el)
+                    });
+                },
+                error:(err)=>{
+                    console.log(err);
+                }
+            })
         }
     </script>
 

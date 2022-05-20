@@ -10,5 +10,6 @@ urlpatterns = [
     path('getRoundAndId', views.getRoundAndId),
     path('UpdateMarkByRoundIDAndLevel',views.UpdateMarkByRoundIDAndLevel),
     path('getAllRoundAndStar',views.getAllRoundAndStar),
-    path('getDataStore',views.getDataStore)
+    path('getDataStore',views.getDataStore),
+    path('gettopRank10',views.gettopRank10)
 ]
