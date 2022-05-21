@@ -145,8 +145,7 @@ def store(request):
         return render(request,template_name='store/index.html')
 
 def paid_snake(request):
-    # token = request.COOKIES.get('token')
-    token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Imx1YW5AZ21haWwuY29tIn0.AtGLRlBgZZEEUJOqG-eSFUhbiXJUpP-4jMyZ9OMsq6M'
+    token = request.COOKIES.get('token')
     apple = request.POST['apple']
     if not token:
         return redirect('/login')

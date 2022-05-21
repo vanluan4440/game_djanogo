@@ -84,8 +84,10 @@ def UpdateMarkByRoundIDAndLevel(request):
     level = request.POST['level']
     point = int(request.POST['point'])
     star = 0
-    if point <=10:
-        star = 1
+    if point ==0:
+        star = 0
+    elif point >0 and point <=10:
+        star =1
     elif point >10 and point <20:
         star = 2
     else:
@@ -122,4 +124,13 @@ def gettopRank10(request):
     for item in list(data)[0:5]:
         new.append({'nickname':item['nickname'],'star':item['totalStar']})
     return JsonResponse({'data':new})
+
+def checkRound(request):
+    round = request.POST['round']
+    dataCheck =list(RoundAndLevel.objects.filter(Round = round).values())
+    valueStarRound = 0
+    for el in dataCheck:
+        if el['Star'] > 0:
+            valueStarRound +=1
+    return JsonResponse({"data":valueStarRound})
 

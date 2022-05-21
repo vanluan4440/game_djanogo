@@ -89,20 +89,29 @@
 </body>
 <script>
     function router(round) {
-        $.ajax({
-            url: `${window.location.origin}/updateRound`,
-            method: 'POST',
-            data: {
-                'round': Number(round)
-            },
-            success: (res) => {
-                console.log(res);
-                window.location.replace(`/game_advanced?round=${round}`)
-            },
-            error: (err) => {
-                console.log(err);
-            }
-        })
+        if(round ==2 || round ==3){
+            $.ajax({
+                url:`${window.location.origin}/api/checkRound`,
+                type:'POST',
+                data:{round: round-1},
+                success:(res)=>{
+                    if(res.data == 3){
+                        callApi(round)
+
+                    }
+                    else{
+                        alert(`You have not completed round number ${round-1}`)
+                    }
+                },
+                error:(err)=>{
+                    console.log(err);
+                }
+            })
+            console.log(round);
+        }
+        else{
+            callApi(round)
+       }
     }
 
     function block() {
@@ -135,6 +144,22 @@
 
     }
     block()
+    function callApi(round){
+        $.ajax({
+            url: `${window.location.origin}/updateRound`,
+            method: 'POST',
+            data: {
+                'round': Number(round)
+            },
+            success: (res) => {
+                console.log(res);
+                window.location.replace(`/game_advanced?round=${round}`)
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+    }
 </script>
 
 
