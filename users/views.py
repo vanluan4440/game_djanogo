@@ -1,6 +1,6 @@
 
 import email
-import json
+from turtle import speed
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from .models import RoundAndLevel, User,Store
@@ -9,6 +9,20 @@ import jwt
 from django.core.mail import send_mail
 from django.conf import settings
 # Create your views here.
+data = [
+{"speed":200,"Round":1,"Level":1,"ImgSnake":"../../static/img/snakeredthom.png","Star": 0,"Background":"../../static/img/bg_12.jpg","icon":"../../static/img/thom.png"},
+{"speed":150,"Round":1,"Level":2,"ImgSnake":"../../static/img/snakeredthom.png","Star": 0,"Background":"../../static/img/bg_12.jpg","icon":"../../static/img/thom.png"},
+{"speed":120,"Round":1,"Level":3,"ImgSnake":"../../static/img/snakeredthom.png","Star": 0,"Background":"../../static/img/bg_12.jpg","icon":"../../static/img/thom.png"},
+{"speed":100,"Round":2,"Level":1,"ImgSnake":"../../static/img/snakehongchanh.png","Star": 0,"Background":"../../static/img/bg_5.jpg","icon":"../../static/img/lemo.png"},
+{"speed":90,"Round":2,"Level":2,"ImgSnake":"../../static/img/snakehongchanh.png","Star": 0,"Background":"../../static/img/bg_5.jpg","icon":"../../static/img/lemo.png"},
+{"speed":80,"Round":2,"Level":3,"ImgSnake":"../../static/img/snakehongchanh.png","Star": 0,"Background":"../../static/img/bg_5.jpg","icon":"../../static/img/lemo.png"},
+{"speed":60,"Round":3,"Level":1,"ImgSnake":"../../static/img/snakevangnho.png","Star": 0,"Background":"../../static/img/block.png","icon":"../../static/img/nho.png"},
+{"speed":70,"Round":3,"Level":2,"ImgSnake":"../../static/img/snakevangnho.png","Star":0,"Background":"../../static/img/block.png","icon":"../../static/img/nho.png"},
+{"speed":50,"Round":3,"Level":3,"ImgSnake":"../../static/img/snakevangnho.png","Star":0,"Background":"../../static/img/block.png","icon":"../../static/img/nho.png"}
+]
+
+
+
 
 def register(request):
     if request.method =='POST':
@@ -16,6 +30,17 @@ def register(request):
         if(emailCount>0):
             return JsonResponse({'message': 'Email is ready !!!'})
         else:
+            for round_data in list(data):
+                round_create_data = RoundAndLevel.objects.create(speed=round_data['speed'],
+                Round=round_data['Round'],
+                Level= round_data['Level'],
+                ImgSnake = round_data['ImgSnake'],
+                Background = round_data['Background'],
+                Star = 0,
+                icon = round_data['icon'],
+                email = request.POST['email']
+                )
+                round_create_data.save()
             user= User.objects.create(nickname=request.POST['username'],email=request.POST['email'],
             password = make_password(request.POST['password']), scorce = 0,star_store=0
             )
@@ -74,10 +99,20 @@ def gettop10(request):
     return JsonResponse({'data':new})
 
 def getRoundAndId(request):
+    token = request.COOKIES.get('token')
     round = request.POST['round']
     level = request.POST['level']
-    data = list(RoundAndLevel.objects.filter(Round=round,Level=level).values())[0]
-    return JsonResponse({'data': data})
+    try:
+        payload = jwt.decode(jwt=token, key="secret", algorithms=['HS256'])
+        user = User.objects.filter(email = payload['email']).values()
+        if user:
+            data = list(RoundAndLevel.objects.filter(Round=round,Level=level,email=payload['email']).values())[0]
+            return JsonResponse({'data': data})
+    except jwt.ExpiredSignatureError as e:
+        return JsonResponse({'error': 'Activations link expired'}, status=400)
+    except jwt.exceptions.DecodeError as e:
+        return JsonResponse({'error': 'Invalid Token'}, status=400)
+    
 
 def UpdateMarkByRoundIDAndLevel(request):
     round = request.POST['round']
@@ -96,13 +131,13 @@ def UpdateMarkByRoundIDAndLevel(request):
     try:
         payload = jwt.decode(jwt=token, key="secret", algorithms=['HS256'])
         user = list(User.objects.filter(email = payload['email']).values())[0]
-        roundData = list(RoundAndLevel.objects.filter(Round=round,Level=level).values())[0]
+        roundData = list(RoundAndLevel.objects.filter(Round=round,Level=level,email=payload['email']).values())[0]
         if user:
             totalEat = point + user['totalEat']
             totalStar = star + user['totalStar']
             User.objects.filter(email=payload['email']).update(totalEat=totalEat,totalStar=totalStar)
             if(star > roundData['Star']):
-                RoundAndLevel.objects.filter(Round=round,Level=level).update(Star=star)
+                RoundAndLevel.objects.filter(Round=round,Level=level,email=payload['email']).update(Star=star)
             return JsonResponse({'message': totalEat,'star':totalStar}, status=200)
     except jwt.ExpiredSignatureError as e:
         return JsonResponse({'error': 'Activations link expired'}, status=400)
@@ -110,10 +145,18 @@ def UpdateMarkByRoundIDAndLevel(request):
         return JsonResponse({'error': 'Invalid Token'}, status=400)
 
 def getAllRoundAndStar(request):
+    token = request.COOKIES.get('token')
     round = request.POST['round']
-    data = list(RoundAndLevel.objects.filter(Round=round).values())
-    return JsonResponse({'data':data})
-
+    try:
+        payload = jwt.decode(jwt=token, key="secret", algorithms=['HS256'])
+        user = User.objects.filter(email = payload['email']).values()
+        if user:
+            data = list(RoundAndLevel.objects.filter(Round=round,email=payload['email']).values())
+            return JsonResponse({'data':data})
+    except jwt.ExpiredSignatureError as e:
+        return JsonResponse({'error': 'Activations link expired'}, status=400)
+    except jwt.exceptions.DecodeError as e:
+        return JsonResponse({'error': 'Invalid Token'}, status=400)
 def getDataStore(request):
     data = list(Store.objects.filter().values())
     return JsonResponse({'data': data})
@@ -126,11 +169,20 @@ def gettopRank10(request):
     return JsonResponse({'data':new})
 
 def checkRound(request):
+    token = request.COOKIES.get('token')
     round = request.POST['round']
-    dataCheck =list(RoundAndLevel.objects.filter(Round = round).values())
-    valueStarRound = 0
-    for el in dataCheck:
-        if el['Star'] > 0:
-            valueStarRound +=1
-    return JsonResponse({"data":valueStarRound})
+    try:
+        payload = jwt.decode(jwt=token, key="secret", algorithms=['HS256'])
+        user = User.objects.filter(email = payload['email']).values()
+        if user:
+            dataCheck =list(RoundAndLevel.objects.filter(Round = round,email= payload['email']).values())
+            valueStarRound = 0
+            for el in dataCheck:
+                if el['Star'] > 0:
+                    valueStarRound +=1
+            return JsonResponse({"data":valueStarRound})
+    except jwt.ExpiredSignatureError as e:
+        return JsonResponse({'error': 'Activations link expired'}, status=400)
+    except jwt.exceptions.DecodeError as e:
+        return JsonResponse({'error': 'Invalid Token'}, status=400)
 

@@ -30,6 +30,7 @@ class RoundAndLevel(models.Model):
   Background = models.CharField(max_length=255, default='')
   Star = models.IntegerField(default=0)
   icon = models.CharField(default='', max_length=255)
+  email = models.EmailField(default='')
 
 class Store(models.Model):
   src_img = models.CharField(max_length=255, default='')
